@@ -72,6 +72,17 @@ var IDL = {
           isMut: true,
           isSigner: false,
           isOptional: true
+        },
+        // new:
+        {
+          name: "eventAuthority",
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: "program",
+          isMut: false,
+          isSigner: false
         }
       ],
       args: [
@@ -146,6 +157,17 @@ var IDL = {
           name: "tokenLedger",
           isMut: false,
           isSigner: false
+        },
+        // new:
+        {
+          name: "eventAuthority",
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: "program",
+          isMut: false,
+          isSigner: false
         }
       ],
       args: [
@@ -174,9 +196,7 @@ var IDL = {
     },
     {
       name: "sharedAccountsRoute",
-      docs: [
-        "Route by using program owned token accounts and open orders accounts."
-      ],
+      docs: ["Route by using program owned token accounts and open orders accounts."],
       accounts: [
         {
           name: "tokenProgram",
@@ -234,6 +254,17 @@ var IDL = {
           isMut: false,
           isSigner: false,
           isOptional: true
+        },
+        // new:
+        {
+          name: "eventAuthority",
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: "program",
+          isMut: false,
+          isSigner: false
         }
       ],
       args: [
@@ -332,6 +363,17 @@ var IDL = {
           name: "tokenLedger",
           isMut: false,
           isSigner: false
+        },
+        // new:
+        {
+          name: "eventAuthority",
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: "program",
+          isMut: false,
+          isSigner: false
         }
       ],
       args: [
@@ -412,6 +454,17 @@ var IDL = {
           isMut: false,
           isSigner: false,
           isOptional: true
+        },
+        // new:
+        {
+          name: "eventAuthority",
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: "program",
+          isMut: false,
+          isSigner: false
         }
       ],
       args: [
@@ -444,9 +497,7 @@ var IDL = {
     },
     {
       name: "sharedAccountsExactOutRoute",
-      docs: [
-        "Route by using program owned token accounts and open orders accounts."
-      ],
+      docs: ["Route by using program owned token accounts and open orders accounts."],
       accounts: [
         {
           name: "tokenProgram",
@@ -504,6 +555,17 @@ var IDL = {
           isMut: false,
           isSigner: false,
           isOptional: true
+        },
+        // new:
+        {
+          name: "eventAuthority",
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: "program",
+          isMut: false,
+          isSigner: false
         }
       ],
       args: [
@@ -757,6 +819,51 @@ var IDL = {
       returns: "u64"
     },
     {
+      name: "closeToken",
+      accounts: [
+        {
+          name: "operator",
+          isMut: false,
+          isSigner: true
+        },
+        {
+          name: "wallet",
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: "programAuthority",
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: "programTokenAccount",
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: "mint",
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: "tokenProgram",
+          isMut: false,
+          isSigner: false
+        }
+      ],
+      args: [
+        {
+          name: "id",
+          type: "u8"
+        },
+        {
+          name: "burnAll",
+          type: "bool"
+        }
+      ]
+    },
+    {
       name: "createTokenLedger",
       accounts: [
         {
@@ -791,527 +898,6 @@ var IDL = {
           {
             name: "amount",
             type: "u64"
-          }
-        ]
-      }
-    }
-  ],
-  types: [
-    {
-      name: "AmountWithSlippage",
-      type: {
-        kind: "struct",
-        fields: [
-          {
-            name: "amount",
-            type: "u64"
-          },
-          {
-            name: "slippageBps",
-            type: "u16"
-          }
-        ]
-      }
-    },
-    {
-      name: "RoutePlanStep",
-      type: {
-        kind: "struct",
-        fields: [
-          {
-            name: "swap",
-            type: {
-              defined: "Swap"
-            }
-          },
-          {
-            name: "percent",
-            type: "u8"
-          },
-          {
-            name: "inputIndex",
-            type: "u8"
-          },
-          {
-            name: "outputIndex",
-            type: "u8"
-          }
-        ]
-      }
-    },
-    {
-      name: "PlatformFeeType",
-      type: {
-        kind: "enum",
-        variants: [
-          {
-            name: "SourceMint",
-            fields: [
-              {
-                name: "mint",
-                type: "publicKey"
-              }
-            ]
-          },
-          {
-            name: "DestinationMint",
-            fields: [
-              {
-                name: "mint",
-                type: "publicKey"
-              }
-            ]
-          },
-          {
-            name: "Zero"
-          }
-        ]
-      }
-    },
-    {
-      name: "Side",
-      type: {
-        kind: "enum",
-        variants: [
-          {
-            name: "Bid"
-          },
-          {
-            name: "Ask"
-          }
-        ]
-      }
-    },
-    {
-      name: "Swap",
-      type: {
-        kind: "enum",
-        variants: [
-          {
-            name: "Saber"
-          },
-          {
-            name: "SaberAddDecimalsDeposit"
-          },
-          {
-            name: "SaberAddDecimalsWithdraw"
-          },
-          {
-            name: "TokenSwap"
-          },
-          {
-            name: "Sencha"
-          },
-          {
-            name: "Step"
-          },
-          {
-            name: "Cropper"
-          },
-          {
-            name: "Raydium"
-          },
-          {
-            name: "Crema",
-            fields: [
-              {
-                name: "aToB",
-                type: "bool"
-              }
-            ]
-          },
-          {
-            name: "Lifinity"
-          },
-          {
-            name: "Mercurial"
-          },
-          {
-            name: "Cykura"
-          },
-          {
-            name: "Serum",
-            fields: [
-              {
-                name: "side",
-                type: {
-                  defined: "Side"
-                }
-              }
-            ]
-          },
-          {
-            name: "MarinadeDeposit"
-          },
-          {
-            name: "MarinadeUnstake"
-          },
-          {
-            name: "Aldrin",
-            fields: [
-              {
-                name: "side",
-                type: {
-                  defined: "Side"
-                }
-              }
-            ]
-          },
-          {
-            name: "AldrinV2",
-            fields: [
-              {
-                name: "side",
-                type: {
-                  defined: "Side"
-                }
-              }
-            ]
-          },
-          {
-            name: "Whirlpool",
-            fields: [
-              {
-                name: "aToB",
-                type: "bool"
-              }
-            ]
-          },
-          {
-            name: "Invariant",
-            fields: [
-              {
-                name: "xToY",
-                type: "bool"
-              }
-            ]
-          },
-          {
-            name: "Meteora"
-          },
-          {
-            name: "GooseFX"
-          },
-          {
-            name: "DeltaFi",
-            fields: [
-              {
-                name: "stable",
-                type: "bool"
-              }
-            ]
-          },
-          {
-            name: "Balansol"
-          },
-          {
-            name: "MarcoPolo",
-            fields: [
-              {
-                name: "xToY",
-                type: "bool"
-              }
-            ]
-          },
-          {
-            name: "Dradex",
-            fields: [
-              {
-                name: "side",
-                type: {
-                  defined: "Side"
-                }
-              }
-            ]
-          },
-          {
-            name: "LifinityV2"
-          },
-          {
-            name: "RaydiumClmm"
-          },
-          {
-            name: "Openbook",
-            fields: [
-              {
-                name: "side",
-                type: {
-                  defined: "Side"
-                }
-              }
-            ]
-          },
-          {
-            name: "Phoenix",
-            fields: [
-              {
-                name: "side",
-                type: {
-                  defined: "Side"
-                }
-              }
-            ]
-          },
-          {
-            name: "Symmetry",
-            fields: [
-              {
-                name: "fromTokenId",
-                type: "u64"
-              },
-              {
-                name: "toTokenId",
-                type: "u64"
-              }
-            ]
-          },
-          {
-            name: "TokenSwapV2"
-          },
-          {
-            name: "HeliumTreasuryManagementRedeemV0"
-          },
-          {
-            name: "StakeDexStakeWrappedSol"
-          },
-          {
-            name: "StakeDexSwapViaStake",
-            fields: [
-              {
-                name: "bridgeStakeSeed",
-                type: "u32"
-              }
-            ]
-          },
-          {
-            name: "GooseFXV2"
-          },
-          {
-            name: "Perps"
-          },
-          {
-            name: "PerpsAddLiquidity"
-          },
-          {
-            name: "PerpsRemoveLiquidity"
-          },
-          {
-            name: "MeteoraDlmm"
-          },
-          {
-            name: "OpenBookV2",
-            fields: [
-              {
-                name: "side",
-                type: {
-                  defined: "Side"
-                }
-              }
-            ]
-          },
-          {
-            name: "RaydiumClmmV2"
-          },
-          {
-            name: "StakeDexPrefundWithdrawStakeAndDepositStake",
-            fields: [
-              {
-                name: "bridgeStakeSeed",
-                type: "u32"
-              }
-            ]
-          },
-          {
-            name: "Clone",
-            fields: [
-              {
-                name: "poolIndex",
-                type: "u8"
-              },
-              {
-                name: "quantityIsInput",
-                type: "bool"
-              },
-              {
-                name: "quantityIsCollateral",
-                type: "bool"
-              }
-            ]
-          },
-          {
-            name: "SanctumS",
-            fields: [
-              {
-                name: "srcLstValueCalcAccs",
-                type: "u8"
-              },
-              {
-                name: "dstLstValueCalcAccs",
-                type: "u8"
-              },
-              {
-                name: "srcLstIndex",
-                type: "u32"
-              },
-              {
-                name: "dstLstIndex",
-                type: "u32"
-              }
-            ]
-          },
-          {
-            name: "SanctumSAddLiquidity",
-            fields: [
-              {
-                name: "lstValueCalcAccs",
-                type: "u8"
-              },
-              {
-                name: "lstIndex",
-                type: "u32"
-              }
-            ]
-          },
-          {
-            name: "SanctumSRemoveLiquidity",
-            fields: [
-              {
-                name: "lstValueCalcAccs",
-                type: "u8"
-              },
-              {
-                name: "lstIndex",
-                type: "u32"
-              }
-            ]
-          },
-          {
-            name: "RaydiumCP"
-          },
-          {
-            name: "WhirlpoolSwapV2",
-            fields: [
-              {
-                name: "aToB",
-                type: "bool"
-              },
-              {
-                name: "remainingAccountsInfo",
-                type: {
-                  option: {
-                    defined: "RemainingAccountsInfo"
-                  }
-                }
-              }
-            ]
-          },
-          {
-            name: "OneIntro"
-          },
-          {
-            name: "PumpdotfunWrappedBuy"
-          },
-          {
-            name: "PumpdotfunWrappedSell"
-          },
-          {
-            name: "PerpsV2"
-          },
-          {
-            name: "PerpsV2AddLiquidity"
-          },
-          {
-            name: "PerpsV2RemoveLiquidity"
-          },
-          {
-            name: "MoonshotWrappedBuy"
-          },
-          {
-            name: "MoonshotWrappedSell"
-          },
-          {
-            name: "StabbleStableSwap"
-          },
-          {
-            name: "StabbleWeightedSwap"
-          },
-          {
-            name: "Obric",
-            fields: [
-              {
-                name: "xToY",
-                type: "bool"
-              }
-            ]
-          },
-          {
-            name: "FoxBuyFromEstimatedCost"
-          },
-          {
-            name: "FoxClaimPartial",
-            fields: [
-              {
-                name: "isY",
-                type: "bool"
-              }
-            ]
-          },
-          {
-            name: "SolFi",
-            fields: [
-              {
-                name: "isQuoteToBase",
-                type: "bool"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      name: "RemainingAccountsSlice",
-      type: {
-        kind: "struct",
-        fields: [
-          {
-            name: "accountsType",
-            type: {
-              defined: "AccountsType"
-            }
-          },
-          {
-            name: "length",
-            type: "u8"
-          }
-        ]
-      }
-    },
-    {
-      name: "RemainingAccountsInfo",
-      type: {
-        kind: "struct",
-        fields: [
-          {
-            name: "slices",
-            type: {
-              vec: {
-                defined: "RemainingAccountsSlice"
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
-      name: "AccountsType",
-      type: {
-        kind: "enum",
-        variants: [
-          {
-            name: "TransferHookA"
-          },
-          {
-            name: "TransferHookB"
           }
         ]
       }
@@ -1464,6 +1050,506 @@ var IDL = {
       code: 6018,
       name: "SourceAndDestinationMintCannotBeTheSame",
       msg: "Source mint and destination mint cannot the same"
+    }
+  ],
+  types: [
+    {
+      name: "AmountWithSlippage",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "amount",
+            type: "u64"
+          },
+          {
+            name: "slippageBps",
+            type: "u16"
+          }
+        ]
+      }
+    },
+    {
+      name: "RoutePlanStep",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "swap",
+            type: {
+              defined: "Swap"
+            }
+          },
+          {
+            name: "percent",
+            type: "u8"
+          },
+          {
+            name: "inputIndex",
+            type: "u8"
+          },
+          {
+            name: "outputIndex",
+            type: "u8"
+          }
+        ]
+      }
+    },
+    {
+      name: "PlatformFeeType",
+      type: {
+        kind: "enum",
+        variants: [
+          {
+            name: "SourceMint",
+            fields: [
+              {
+                name: "mint",
+                type: "publicKey"
+              }
+            ]
+          },
+          {
+            name: "DestinationMint",
+            fields: [
+              {
+                name: "mint",
+                type: "publicKey"
+              }
+            ]
+          },
+          {
+            name: "Zero"
+          }
+        ]
+      }
+    },
+    {
+      name: "Side",
+      type: {
+        kind: "enum",
+        variants: [
+          {
+            name: "Bid"
+          },
+          {
+            name: "Ask"
+          }
+        ]
+      }
+    },
+    {
+      name: "Swap",
+      type: {
+        kind: "enum",
+        variants: [
+          { name: "Saber" },
+          { name: "SaberAddDecimalsDeposit" },
+          { name: "SaberAddDecimalsWithdraw" },
+          { name: "TokenSwap" },
+          { name: "Sencha" },
+          { name: "Step" },
+          { name: "Cropper" },
+          { name: "Raydium" },
+          {
+            name: "Crema",
+            fields: [
+              {
+                name: "aToB",
+                type: "bool"
+              }
+            ]
+          },
+          { name: "Lifinity" },
+          { name: "Mercurial" },
+          { name: "Cykura" },
+          {
+            name: "Serum",
+            fields: [
+              {
+                name: "side",
+                type: {
+                  defined: "Side"
+                }
+              }
+            ]
+          },
+          { name: "MarinadeDeposit" },
+          { name: "MarinadeUnstake" },
+          {
+            name: "Aldrin",
+            fields: [
+              {
+                name: "side",
+                type: {
+                  defined: "Side"
+                }
+              }
+            ]
+          },
+          {
+            name: "AldrinV2",
+            fields: [
+              {
+                name: "side",
+                type: {
+                  defined: "Side"
+                }
+              }
+            ]
+          },
+          {
+            name: "Whirlpool",
+            fields: [
+              {
+                name: "aToB",
+                type: "bool"
+              }
+            ]
+          },
+          {
+            name: "Invariant",
+            fields: [
+              {
+                name: "xToY",
+                type: "bool"
+              }
+            ]
+          },
+          { name: "Meteora" },
+          { name: "GooseFX" },
+          {
+            name: "DeltaFi",
+            fields: [
+              {
+                name: "stable",
+                type: "bool"
+              }
+            ]
+          },
+          { name: "Balansol" },
+          {
+            name: "MarcoPolo",
+            fields: [
+              {
+                name: "xToY",
+                type: "bool"
+              }
+            ]
+          },
+          {
+            name: "Dradex",
+            fields: [
+              {
+                name: "side",
+                type: {
+                  defined: "Side"
+                }
+              }
+            ]
+          },
+          { name: "LifinityV2" },
+          { name: "RaydiumClmm" },
+          {
+            name: "Openbook",
+            fields: [
+              {
+                name: "side",
+                type: {
+                  defined: "Side"
+                }
+              }
+            ]
+          },
+          {
+            name: "Phoenix",
+            fields: [
+              {
+                name: "side",
+                type: {
+                  defined: "Side"
+                }
+              }
+            ]
+          },
+          {
+            name: "Symmetry",
+            fields: [
+              {
+                name: "fromTokenId",
+                type: "u64"
+              },
+              {
+                name: "toTokenId",
+                type: "u64"
+              }
+            ]
+          },
+          { name: "TokenSwapV2" },
+          { name: "HeliumTreasuryManagementRedeemV0" },
+          { name: "StakeDexStakeWrappedSol" },
+          {
+            name: "StakeDexSwapViaStake",
+            fields: [
+              {
+                name: "bridgeStakeSeed",
+                type: "u32"
+              }
+            ]
+          },
+          { name: "GooseFXV2" },
+          { name: "Perps" },
+          { name: "PerpsAddLiquidity" },
+          { name: "PerpsRemoveLiquidity" },
+          { name: "MeteoraDlmm" },
+          {
+            name: "OpenBookV2",
+            fields: [
+              {
+                name: "side",
+                type: {
+                  defined: "Side"
+                }
+              }
+            ]
+          },
+          { name: "RaydiumClmmV2" },
+          {
+            name: "StakeDexPrefundWithdrawStakeAndDepositStake",
+            fields: [
+              {
+                name: "bridgeStakeSeed",
+                type: "u32"
+              }
+            ]
+          },
+          {
+            name: "Clone",
+            fields: [
+              {
+                name: "poolIndex",
+                type: "u8"
+              },
+              {
+                name: "quantityIsInput",
+                type: "bool"
+              },
+              {
+                name: "quantityIsCollateral",
+                type: "bool"
+              }
+            ]
+          },
+          {
+            name: "SanctumS",
+            fields: [
+              {
+                name: "srcLstValueCalcAccs",
+                type: "u8"
+              },
+              {
+                name: "dstLstValueCalcAccs",
+                type: "u8"
+              },
+              {
+                name: "srcLstIndex",
+                type: "u32"
+              },
+              {
+                name: "dstLstIndex",
+                type: "u32"
+              }
+            ]
+          },
+          {
+            name: "SanctumSAddLiquidity",
+            fields: [
+              {
+                name: "lstValueCalcAccs",
+                type: "u8"
+              },
+              {
+                name: "lstIndex",
+                type: "u32"
+              }
+            ]
+          },
+          {
+            name: "SanctumSRemoveLiquidity",
+            fields: [
+              {
+                name: "lstValueCalcAccs",
+                type: "u8"
+              },
+              {
+                name: "lstIndex",
+                type: "u32"
+              }
+            ]
+          },
+          { name: "RaydiumCP" },
+          {
+            name: "WhirlpoolSwapV2",
+            fields: [
+              {
+                name: "aToB",
+                type: "bool"
+              },
+              {
+                name: "remainingAccountsInfo",
+                type: {
+                  option: {
+                    defined: "RemainingAccountsInfo"
+                  }
+                }
+              }
+            ]
+          },
+          { name: "OneIntro" },
+          { name: "PumpdotfunWrappedBuy" },
+          { name: "PumpdotfunWrappedSell" },
+          { name: "PerpsV2" },
+          { name: "PerpsV2AddLiquidity" },
+          { name: "PerpsV2RemoveLiquidity" },
+          { name: "MoonshotWrappedBuy" },
+          { name: "MoonshotWrappedSell" },
+          { name: "StabbleStableSwap" },
+          { name: "StabbleWeightedSwap" },
+          {
+            name: "Obric",
+            fields: [
+              {
+                name: "xToY",
+                type: "bool"
+              }
+            ]
+          },
+          { name: "FoxBuyFromEstimatedCost" },
+          {
+            name: "FoxClaimPartial",
+            fields: [
+              {
+                name: "isY",
+                type: "bool"
+              }
+            ]
+          },
+          {
+            name: "SolFi",
+            fields: [
+              {
+                name: "isQuoteToBase",
+                type: "bool"
+              }
+            ]
+          },
+          // Newly added:
+          { name: "SolayerDelegateNoInit" },
+          { name: "SolayerUndelegateNoInit" },
+          {
+            name: "TokenMill",
+            fields: [
+              {
+                name: "side",
+                type: {
+                  defined: "Side"
+                }
+              }
+            ]
+          },
+          { name: "DaosFunBuy" },
+          { name: "DaosFunSell" },
+          { name: "ZeroFi" },
+          { name: "StakeDexWithdrawWrappedSol" },
+          { name: "VirtualsBuy" },
+          { name: "VirtualsSell" },
+          {
+            name: "Perena",
+            fields: [
+              {
+                name: "inIndex",
+                type: "u8"
+              },
+              {
+                name: "outIndex",
+                type: "u8"
+              }
+            ]
+          },
+          { name: "PumpdotfunAmmBuy" },
+          { name: "PumpdotfunAmmSell" },
+          { name: "Gamma" }
+        ]
+      }
+    },
+    {
+      name: "RemainingAccountsSlice",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "accountsType",
+            type: {
+              defined: "AccountsType"
+            }
+          },
+          {
+            name: "length",
+            type: "u8"
+          }
+        ]
+      }
+    },
+    {
+      name: "RemainingAccountsInfo",
+      type: {
+        kind: "struct",
+        fields: [
+          {
+            name: "slices",
+            type: {
+              vec: {
+                defined: "RemainingAccountsSlice"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      name: "AccountsType",
+      type: {
+        kind: "enum",
+        variants: [
+          {
+            name: "TransferHookA"
+          },
+          {
+            name: "TransferHookB"
+          },
+          {
+            name: "TransferHookReward"
+          },
+          {
+            name: "TransferHookInput"
+          },
+          {
+            name: "TransferHookIntermediate"
+          },
+          {
+            name: "TransferHookOutput"
+          },
+          {
+            name: "SupplementalTickArrays"
+          },
+          {
+            name: "SupplementalTickArraysOne"
+          },
+          {
+            name: "SupplementalTickArraysTwo"
+          }
+        ]
+      }
     }
   ]
 };

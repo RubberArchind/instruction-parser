@@ -45,6 +45,16 @@ type Jupiter = {
                     isMut: true;
                     isSigner: false;
                     isOptional: true;
+                },
+                {
+                    name: "eventAuthority";
+                    isMut: false;
+                    isSigner: false;
+                },
+                {
+                    name: "program";
+                    isMut: false;
+                    isSigner: false;
                 }
             ];
             args: [
@@ -119,6 +129,16 @@ type Jupiter = {
                     name: "tokenLedger";
                     isMut: false;
                     isSigner: false;
+                },
+                {
+                    name: "eventAuthority";
+                    isMut: false;
+                    isSigner: false;
+                },
+                {
+                    name: "program";
+                    isMut: false;
+                    isSigner: false;
                 }
             ];
             args: [
@@ -147,9 +167,7 @@ type Jupiter = {
         },
         {
             name: "sharedAccountsRoute";
-            docs: [
-                "Route by using program owned token accounts and open orders accounts."
-            ];
+            docs: ["Route by using program owned token accounts and open orders accounts."];
             accounts: [
                 {
                     name: "tokenProgram";
@@ -207,6 +225,16 @@ type Jupiter = {
                     isMut: false;
                     isSigner: false;
                     isOptional: true;
+                },
+                {
+                    name: "eventAuthority";
+                    isMut: false;
+                    isSigner: false;
+                },
+                {
+                    name: "program";
+                    isMut: false;
+                    isSigner: false;
                 }
             ];
             args: [
@@ -305,6 +333,16 @@ type Jupiter = {
                     name: "tokenLedger";
                     isMut: false;
                     isSigner: false;
+                },
+                {
+                    name: "eventAuthority";
+                    isMut: false;
+                    isSigner: false;
+                },
+                {
+                    name: "program";
+                    isMut: false;
+                    isSigner: false;
                 }
             ];
             args: [
@@ -385,6 +423,16 @@ type Jupiter = {
                     isMut: false;
                     isSigner: false;
                     isOptional: true;
+                },
+                {
+                    name: "eventAuthority";
+                    isMut: false;
+                    isSigner: false;
+                },
+                {
+                    name: "program";
+                    isMut: false;
+                    isSigner: false;
                 }
             ];
             args: [
@@ -417,9 +465,7 @@ type Jupiter = {
         },
         {
             name: "sharedAccountsExactOutRoute";
-            docs: [
-                "Route by using program owned token accounts and open orders accounts."
-            ];
+            docs: ["Route by using program owned token accounts and open orders accounts."];
             accounts: [
                 {
                     name: "tokenProgram";
@@ -477,6 +523,16 @@ type Jupiter = {
                     isMut: false;
                     isSigner: false;
                     isOptional: true;
+                },
+                {
+                    name: "eventAuthority";
+                    isMut: false;
+                    isSigner: false;
+                },
+                {
+                    name: "program";
+                    isMut: false;
+                    isSigner: false;
                 }
             ];
             args: [
@@ -730,6 +786,51 @@ type Jupiter = {
             returns: "u64";
         },
         {
+            name: "closeToken";
+            accounts: [
+                {
+                    name: "operator";
+                    isMut: false;
+                    isSigner: true;
+                },
+                {
+                    name: "wallet";
+                    isMut: true;
+                    isSigner: false;
+                },
+                {
+                    name: "programAuthority";
+                    isMut: false;
+                    isSigner: false;
+                },
+                {
+                    name: "programTokenAccount";
+                    isMut: true;
+                    isSigner: false;
+                },
+                {
+                    name: "mint";
+                    isMut: true;
+                    isSigner: false;
+                },
+                {
+                    name: "tokenProgram";
+                    isMut: false;
+                    isSigner: false;
+                }
+            ];
+            args: [
+                {
+                    name: "id";
+                    type: "u8";
+                },
+                {
+                    name: "burnAll";
+                    type: "bool";
+                }
+            ];
+        },
+        {
             name: "createTokenLedger";
             accounts: [
                 {
@@ -767,6 +868,155 @@ type Jupiter = {
                     }
                 ];
             };
+        }
+    ];
+    events: [
+        {
+            name: "SwapEvent";
+            fields: [
+                {
+                    name: "amm";
+                    type: "publicKey";
+                    index: false;
+                },
+                {
+                    name: "inputMint";
+                    type: "publicKey";
+                    index: false;
+                },
+                {
+                    name: "inputAmount";
+                    type: "u64";
+                    index: false;
+                },
+                {
+                    name: "outputMint";
+                    type: "publicKey";
+                    index: false;
+                },
+                {
+                    name: "outputAmount";
+                    type: "u64";
+                    index: false;
+                }
+            ];
+        },
+        {
+            name: "FeeEvent";
+            fields: [
+                {
+                    name: "account";
+                    type: "publicKey";
+                    index: false;
+                },
+                {
+                    name: "mint";
+                    type: "publicKey";
+                    index: false;
+                },
+                {
+                    name: "amount";
+                    type: "u64";
+                    index: false;
+                }
+            ];
+        }
+    ];
+    errors: [
+        {
+            code: 6000;
+            name: "EmptyRoute";
+            msg: "Empty route";
+        },
+        {
+            code: 6001;
+            name: "SlippageToleranceExceeded";
+            msg: "Slippage tolerance exceeded";
+        },
+        {
+            code: 6002;
+            name: "InvalidCalculation";
+            msg: "Invalid calculation";
+        },
+        {
+            code: 6003;
+            name: "MissingPlatformFeeAccount";
+            msg: "Missing platform fee account";
+        },
+        {
+            code: 6004;
+            name: "InvalidSlippage";
+            msg: "Invalid slippage";
+        },
+        {
+            code: 6005;
+            name: "NotEnoughPercent";
+            msg: "Not enough percent to 100";
+        },
+        {
+            code: 6006;
+            name: "InvalidInputIndex";
+            msg: "Token input index is invalid";
+        },
+        {
+            code: 6007;
+            name: "InvalidOutputIndex";
+            msg: "Token output index is invalid";
+        },
+        {
+            code: 6008;
+            name: "NotEnoughAccountKeys";
+            msg: "Not Enough Account keys";
+        },
+        {
+            code: 6009;
+            name: "NonZeroMinimumOutAmountNotSupported";
+            msg: "Non zero minimum out amount not supported";
+        },
+        {
+            code: 6010;
+            name: "InvalidRoutePlan";
+            msg: "Invalid route plan";
+        },
+        {
+            code: 6011;
+            name: "InvalidReferralAuthority";
+            msg: "Invalid referral authority";
+        },
+        {
+            code: 6012;
+            name: "LedgerTokenAccountDoesNotMatch";
+            msg: "Token account doesn't match the ledger";
+        },
+        {
+            code: 6013;
+            name: "InvalidTokenLedger";
+            msg: "Invalid token ledger";
+        },
+        {
+            code: 6014;
+            name: "IncorrectTokenProgramID";
+            msg: "Token program ID is invalid";
+        },
+        {
+            code: 6015;
+            name: "TokenProgramNotProvided";
+            msg: "Token program not provided";
+        },
+        {
+            code: 6016;
+            name: "SwapNotSupported";
+            msg: "Swap not supported";
+        },
+        {
+            code: 6017;
+            name: "ExactOutAmountNotMatched";
+            msg: "Exact out amount doesn't match";
+        },
+        {
+            code: 6018;
+            name: "SourceAndDestinationMintCannotBeTheSame";
+            msg: "Source mint and destination mint cannot the same";
         }
     ];
     types: [
@@ -1237,6 +1487,63 @@ type Jupiter = {
                                 type: "bool";
                             }
                         ];
+                    },
+                    {
+                        name: "SolayerDelegateNoInit";
+                    },
+                    {
+                        name: "SolayerUndelegateNoInit";
+                    },
+                    {
+                        name: "TokenMill";
+                        fields: [
+                            {
+                                name: "side";
+                                type: {
+                                    defined: "Side";
+                                };
+                            }
+                        ];
+                    },
+                    {
+                        name: "DaosFunBuy";
+                    },
+                    {
+                        name: "DaosFunSell";
+                    },
+                    {
+                        name: "ZeroFi";
+                    },
+                    {
+                        name: "StakeDexWithdrawWrappedSol";
+                    },
+                    {
+                        name: "VirtualsBuy";
+                    },
+                    {
+                        name: "VirtualsSell";
+                    },
+                    {
+                        name: "Perena";
+                        fields: [
+                            {
+                                name: "inIndex";
+                                type: "u8";
+                            },
+                            {
+                                name: "outIndex";
+                                type: "u8";
+                            }
+                        ];
+                    },
+                    {
+                        name: "PumpdotfunAmmBuy";
+                    },
+                    {
+                        name: "PumpdotfunAmmSell";
+                    },
+                    {
+                        name: "Gamma";
                     }
                 ];
             };
@@ -1285,158 +1592,30 @@ type Jupiter = {
                     },
                     {
                         name: "TransferHookB";
+                    },
+                    {
+                        name: "TransferHookReward";
+                    },
+                    {
+                        name: "TransferHookInput";
+                    },
+                    {
+                        name: "TransferHookIntermediate";
+                    },
+                    {
+                        name: "TransferHookOutput";
+                    },
+                    {
+                        name: "SupplementalTickArrays";
+                    },
+                    {
+                        name: "SupplementalTickArraysOne";
+                    },
+                    {
+                        name: "SupplementalTickArraysTwo";
                     }
                 ];
             };
-        }
-    ];
-    events: [
-        {
-            name: "SwapEvent";
-            fields: [
-                {
-                    name: "amm";
-                    type: "publicKey";
-                    index: false;
-                },
-                {
-                    name: "inputMint";
-                    type: "publicKey";
-                    index: false;
-                },
-                {
-                    name: "inputAmount";
-                    type: "u64";
-                    index: false;
-                },
-                {
-                    name: "outputMint";
-                    type: "publicKey";
-                    index: false;
-                },
-                {
-                    name: "outputAmount";
-                    type: "u64";
-                    index: false;
-                }
-            ];
-        },
-        {
-            name: "FeeEvent";
-            fields: [
-                {
-                    name: "account";
-                    type: "publicKey";
-                    index: false;
-                },
-                {
-                    name: "mint";
-                    type: "publicKey";
-                    index: false;
-                },
-                {
-                    name: "amount";
-                    type: "u64";
-                    index: false;
-                }
-            ];
-        }
-    ];
-    errors: [
-        {
-            code: 6000;
-            name: "EmptyRoute";
-            msg: "Empty route";
-        },
-        {
-            code: 6001;
-            name: "SlippageToleranceExceeded";
-            msg: "Slippage tolerance exceeded";
-        },
-        {
-            code: 6002;
-            name: "InvalidCalculation";
-            msg: "Invalid calculation";
-        },
-        {
-            code: 6003;
-            name: "MissingPlatformFeeAccount";
-            msg: "Missing platform fee account";
-        },
-        {
-            code: 6004;
-            name: "InvalidSlippage";
-            msg: "Invalid slippage";
-        },
-        {
-            code: 6005;
-            name: "NotEnoughPercent";
-            msg: "Not enough percent to 100";
-        },
-        {
-            code: 6006;
-            name: "InvalidInputIndex";
-            msg: "Token input index is invalid";
-        },
-        {
-            code: 6007;
-            name: "InvalidOutputIndex";
-            msg: "Token output index is invalid";
-        },
-        {
-            code: 6008;
-            name: "NotEnoughAccountKeys";
-            msg: "Not Enough Account keys";
-        },
-        {
-            code: 6009;
-            name: "NonZeroMinimumOutAmountNotSupported";
-            msg: "Non zero minimum out amount not supported";
-        },
-        {
-            code: 6010;
-            name: "InvalidRoutePlan";
-            msg: "Invalid route plan";
-        },
-        {
-            code: 6011;
-            name: "InvalidReferralAuthority";
-            msg: "Invalid referral authority";
-        },
-        {
-            code: 6012;
-            name: "LedgerTokenAccountDoesNotMatch";
-            msg: "Token account doesn't match the ledger";
-        },
-        {
-            code: 6013;
-            name: "InvalidTokenLedger";
-            msg: "Invalid token ledger";
-        },
-        {
-            code: 6014;
-            name: "IncorrectTokenProgramID";
-            msg: "Token program ID is invalid";
-        },
-        {
-            code: 6015;
-            name: "TokenProgramNotProvided";
-            msg: "Token program not provided";
-        },
-        {
-            code: 6016;
-            name: "SwapNotSupported";
-            msg: "Swap not supported";
-        },
-        {
-            code: 6017;
-            name: "ExactOutAmountNotMatched";
-            msg: "Exact out amount doesn't match";
-        },
-        {
-            code: 6018;
-            name: "SourceAndDestinationMintCannotBeTheSame";
-            msg: "Source mint and destination mint cannot the same";
         }
     ];
 };
